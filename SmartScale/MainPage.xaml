@@ -1,0 +1,173 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="SmartScale.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+    xmlns:convert="clr-namespace:SmartScale.ValueConverters"
+    
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="False">
+
+    <phone:PhoneApplicationPage.Resources>
+        <convert:FloatToStringConverter x:Key="FloatToString"/>
+        <convert:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <convert:BooleanToNotVisibilityConverter x:Key="BooleanToNotVisibility"/>
+    </phone:PhoneApplicationPage.Resources>
+    
+    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Minimized" BackgroundColor="#E5000000">
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="o programie"/>
+                <shell:ApplicationBarMenuItem Text="inne programy"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Tytuł -->
+
+        <!-- Kafelki -->
+        <Border Grid.Row="0" BorderThickness="0,0,0,1">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="#0CFFFFFF"/>
+            </Border.BorderBrush>
+            <Border.Background>
+                <SolidColorBrush Color="#19000000"/>
+            </Border.Background>
+            <StackPanel Orientation="Vertical" Margin="22 22 22 10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="42" Source="/Images/icon_128_white.png"/>
+                    <TextBlock Text="SMART SCALE" FontSize="30" Foreground="White" Margin="15 6 0 0"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2" Margin="30 0" VerticalAlignment="Center" Visibility="{Binding IsCalibrated, Converter={StaticResource BooleanToVisibility}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="waga" FontSize="35" FontFamily="Segoe WP Light" HorizontalAlignment="Left"/>
+                <Rectangle Grid.Column="1" Width="1" Fill="#0CFFFFFF"/>
+                <TextBlock Grid.Column="2" Text="gramy" FontSize="35" FontFamily="Segoe WP Semibold" HorizontalAlignment="Right"/>
+            </Grid>
+            <Rectangle Grid.Row="1" Height="1" Fill="#0CFFFFFF"/>
+            <TextBlock Grid.Row="2" Text="{Binding Weight, Converter={StaticResource FloatToString}}" FontSize="200" Foreground="White" TextAlignment="Center" FontFamily="Arial" Margin="0 -20 0 0"/>
+        </Grid>
+
+        
+        <StackPanel Grid.Row="2" Margin="30 0" VerticalAlignment="Center" Orientation="Vertical" Visibility="{Binding IsCalibrated, Converter={StaticResource BooleanToNotVisibility}}">
+            <TextBlock Text="Nie wykonano kalibracji :(" FontSize="36" FontFamily="Segoe WP Light"/>
+            <TextBlock Text="Zanim rozpoczniesz:" Margin="0 20 0 0" FontSize="18"/>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Images/help_128.png" Width="40"/>
+                <Rectangle Width="1" Height="30" Fill="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Przeczytaj pomoc" VerticalAlignment="Center" Margin="10 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Images/graph_128.png" Width="40"/>
+                <Rectangle Width="1" Height="30" Fill="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Wykonaj kalibrację" VerticalAlignment="Center" Margin="10 0"/>
+            </StackPanel>
+            <TextBlock Text="Pamiętaj, Smart Scale służy do szacowania wagi. Aby dokładnie określić wagę użyj wagi!" TextWrapping="Wrap" Margin="0 30 0 0" FontSize="18" FontFamily="Segoe WP Light"/>
+        </StackPanel>
+
+        <!-- Waga -->
+
+        <Border Grid.Row="3" Height="75" BorderThickness="0,0,0,1" Background="#19000000" BorderBrush="#0CFFFFFF">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="22"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="22"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.Column="2" Width="1" Fill="#0CFFFFFF"/>
+                <Rectangle Grid.Column="4" Width="1" Fill="#0CFFFFFF"/>
+
+                <c4f:Tile Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True" Foreground="#FF515151" Background="{x:Null}">
+                    <Grid Margin="10 5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="/Images/settings_128.png" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="1" Text="ustawiena" FontSize="16" Foreground="White" FontFamily="Segoe WP Light" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                    </Grid>
+                </c4f:Tile>
+
+                <c4f:Tile x:Name="tilCalibration" Grid.Column="3" toolkit:TiltEffect.IsTiltEnabled="True" Foreground="#FF515151" Background="{x:Null}" Click="tilCalibration_Click">
+                    <Grid Margin="10 5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="/Images/graph_128.png" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="1" Text="kalibrowanie" FontSize="16" Foreground="White" FontFamily="Segoe WP Light" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                    </Grid>
+                </c4f:Tile>
+
+                <c4f:Tile Grid.Column="5" toolkit:TiltEffect.IsTiltEnabled="True" Foreground="#FF515151" Background="{x:Null}">
+                    <Grid Margin="10 5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="/Images/help_128.png" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="1" Text="pomoc" FontSize="16" Foreground="White" FontFamily="Segoe WP Light" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                    </Grid>
+                </c4f:Tile>
+
+            </Grid>
+        </Border>
+
+        <!-- Pole odkładcze -->
+        <Border Grid.Row="4" Height="260" Width="370" BorderThickness="1,1,1,0" CornerRadius="60" RenderTransformOrigin="0.5,0.5" Visibility="{Binding IsCalibrated, Converter={StaticResource BooleanToVisibility}}">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="#0CFFFFFF"/>
+            </Border.BorderBrush>
+            <Border.Background>
+                <SolidColorBrush Color="#19000000"/>
+            </Border.Background>
+            <Border.RenderTransform>
+                <CompositeTransform TranslateY="55"/>
+            </Border.RenderTransform>
+            <TextBlock Text="tutaj połóż ważony przedmiot" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP Light" FontSize="22" Margin="10 -50 10 0"/>
+        </Border>
+
+        <StackPanel Grid.Row="4" Height="30" Visibility="{Binding IsCalibrated, Converter={StaticResource BooleanToNotVisibility}}"/>
+        
+    </Grid>
+
+</phone:PhoneApplicationPage>
